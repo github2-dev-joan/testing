@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="webscraper.css">
+</head>
+<body>
+    <h1 id="website-title">Central Bank of Albania's Exchange Rates</h1>
+
+    <div id="titles-container">
+        <div id="top-left-div">
+            <h3 id="actual-title">Current exchange rates</h3>
+            <button id="call-actual" onclick="actualEvent()">Show Actual Rates</button>
+        </div>
+
+        <h2 id="animated-greeting">Welcome :)</h2>
+
+        <div id="top-right-div">
+            <h3 id="history-title">Search historical rates</h3>
+            
+            <div id="search-history-div">
+                <input type="date" id="history_date">
+                <button id="history_button" onclick="findRates()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <table id="actual-table" border="1">
+        <thead id="actual-head">
+            <tr>
+                <th>currency</th>
+                <th>acronym</th>
+                <th>ex_rate</th>
+                <th>difference</th>
+                <th>published_date</th>
+                <th>revision_no</th>
+            </tr>
+        </thead>
+        <tbody id="actual-body">
+
+        </tbody>
+
+    </table> 
+    
+    
+    
+
+    
+    
+        <table id = "history-table" border="1">
+            <thead id="history-head">
+                <tr>
+                    <th>currency</th>
+                    <th>acronym</th>
+                    <th>ex_rate</th>
+                    <th>difference</th>
+                    <th>published_date</th>
+                    <th>revision_no</th>
+                </tr>
+            </thead>
+            <tbody id="history-body">
+
+            </tbody>
+        </table>
+    
+    
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required>
+
+            <button id="login_button" onclick="userLogin()">Login</button>
+
+        </form>
+
+        <div id="error" style="color: red;"></div>
+
+    <script src="webscraper.js"></script>
+    
+</body>
+</html>

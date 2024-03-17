@@ -1,0 +1,90 @@
+body{
+    color:lavender;
+    font-family: serif;
+    background-color: darkgreen;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 10px;
+    padding: 10px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: darkcyan;
+  }
+
+  tr{
+    background-color: cadetblue;
+  }
+
+ h3{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+ } 
+
+ 
+
+#titles-container{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+#top-left-div, #top-right-div{
+    padding: 10px;
+    border: 1px solid lavender;
+    background-color: darkcyan;
+}
+
+#website-title{
+    background: linear-gradient(to bottom right, lightgreen, darkgreen);
+    padding-top: 1px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-top: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#search-history-div{
+    background: linear-gradient(to bottom right, aqua, darkgreen);
+    padding: 5px;
+    margin: 5px;
+}
+
+#history_date, #history_button, #call-actual{
+    background: linear-gradient(to bottom right, cyan, darkcyan);
+    color: lavender;
+}
+
+#history_button:hover, #call-actual:hover{
+  background: linear-gradient(to bottom right, blue, purple);
+  color: lavender;
+}
+
+#animated-greeting{
+  opacity:0;
+  transition: opacity 1.0s ease-out;
+}
+
+#animated-greeting:hover{
+  opacity:1;
+  color:lavender;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+
+
+
+
