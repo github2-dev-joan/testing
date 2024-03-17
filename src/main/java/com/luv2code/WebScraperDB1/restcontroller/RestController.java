@@ -1,13 +1,17 @@
 package com.luv2code.WebScraperDB1.restcontroller;
 
 import com.luv2code.WebScraperDB1.CustomResponse;
+import com.luv2code.WebScraperDB1.LoginRequest;
 import com.luv2code.WebScraperDB1.entity.Actual;
 import com.luv2code.WebScraperDB1.entity.History;
 import com.luv2code.WebScraperDB1.entity.Logs;
 import com.luv2code.WebScraperDB1.service.ActualServiceImpl;
 import com.luv2code.WebScraperDB1.service.HistoryServiceImpl;
 import com.luv2code.WebScraperDB1.service.LogsServiceImpl;
+import com.luv2code.WebScraperDB1.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +31,14 @@ public class RestController {
     @Autowired
     private LogsServiceImpl logsServiceImpl;
 
-    public RestController(ActualServiceImpl actualServiceImpl, HistoryServiceImpl historyServiceImpl, LogsServiceImpl logsServiceImpl) {
+    @Autowired
+    private UserServiceImpl userServiceImpl;
+
+    public RestController(ActualServiceImpl actualServiceImpl, HistoryServiceImpl historyServiceImpl, LogsServiceImpl logsServiceImpl, UserServiceImpl userServiceImpl) {
         this.actualServiceImpl = actualServiceImpl;
         this.historyServiceImpl = historyServiceImpl;
         this.logsServiceImpl = logsServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/checkRevNo")
@@ -135,5 +143,13 @@ public class RestController {
         return response;
     }
 
-
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> authenticateUser (@RequestBody LoginRequest loginRequest){
+        boolean authenticated = userServiceImpl.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        if(authenticated){
+            return ResponseEntity.ok("Login Successful");
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+    }
 }
