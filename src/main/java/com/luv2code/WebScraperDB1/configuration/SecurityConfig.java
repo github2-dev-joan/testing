@@ -4,23 +4,27 @@ package com.luv2code.WebScraperDB1.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +37,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception{
         //Do not forget antMatchers() mvcMatchers() and regexMatchers() have been depricated
-        httpSecurity.authorizeHttpRequests(configurer ->
+        httpSecurity
+                .cors(withDefaults())// configure CORS
+                .csrf(csrf -> csrf.disable()) // Disable CSRF protection
+
+        .authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers(HttpMethod.GET, "/tregjet/checkRevNo").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/tregjet/checkRevNo").hasRole("MANAGER")
@@ -46,9 +54,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/tregjet/authenticate").permitAll()
                         .anyRequest().authenticated()
         )
+                //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) //unable to import???
+//                .oauth2ResourceServer(oauth2 ->
+//                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+//                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults());
+        //.formLogin(withDefaults()); // Use form-based authentication
 
-        .formLogin(Customizer.withDefaults()) // Use form-based authentication
-        .csrf(csrf -> csrf.disable()); // Disable CSRF protection
 
         //httpBasic() and csrf() methods where depricated
         //httpSecurity.httpBasic()
@@ -56,6 +69,7 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+
 
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -97,6 +111,7 @@ public class SecurityConfig {
 
     */
 
+
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
@@ -107,5 +122,10 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
+
+
+
 }
 
